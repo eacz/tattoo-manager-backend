@@ -4,6 +4,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import * as Joi from 'joi';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { TattooModule } from './tattoo/tattoo.module';
+import { CommonModule } from './common/common.module';
 
 @Module({
   imports: [
@@ -13,6 +15,8 @@ import { AppService } from './app.service';
       }),
     }),
     MongooseModule.forRoot(process.env.MONGO_URL),
+    TattooModule,
+    CommonModule,
   ],
   controllers: [AppController],
   providers: [AppService],
