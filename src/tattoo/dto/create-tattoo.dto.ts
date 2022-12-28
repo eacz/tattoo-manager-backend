@@ -37,4 +37,8 @@ export class CreateTattooDto {
   @IsNumber()
   @IsOptional()
   advancedDepositAmount?: number;
+
+  @IsBoolean()
+  @IsOptional()
+  done?: boolean;
 }

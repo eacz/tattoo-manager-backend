@@ -24,7 +24,10 @@ export class Tattoo {
   hasPayedAdvancedDeposit?: boolean;
 
   @Prop({ default: 0 })
-  advancedDepositAmount: number;
+  advancedDepositAmount?: number;
+
+  @Prop({ default: false })
+  done?: boolean;
 }
 
 export const TattooSchema = SchemaFactory.createForClass(Tattoo);

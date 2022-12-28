@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { CreateTattooDto } from './dto/create-tattoo.dto';
+import { FindManyTattooDto } from './dto/find-many-tattoo.dto';
 import { UpdateTattooDto } from './dto/update-tattoo.dto';
 import { Tattoo } from './entities/tattoo.entity';
 
@@ -18,11 +18,17 @@ export class TattooService {
     return tattoo;
   }
 
-  async getMany(paginationDto: PaginationDto) {
-    const { limit = 10, offset = 0 } = paginationDto;
+  async getMany(findManyTattooDto: FindManyTattooDto) {
+    const { limit = 10, offset = 0, done } = findManyTattooDto;
+    console.log({ done });
+    const query: any = {};
+    if (typeof done === 'boolean') {
+      query.done = done;
+      console.log('boolean');
+    }
 
     const tattos = await this.tattooModel
-      .find()
+      .find(query)
       .limit(limit)
       .skip(offset)
       .select('-__v');
