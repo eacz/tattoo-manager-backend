@@ -6,11 +6,13 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { TattooService } from './tattoo.service';
 import { CreateTattooDto } from './dto/create-tattoo.dto';
 import { UpdateTattooDto } from './dto/update-tattoo.dto';
 import { ParseMongoIdPipe } from 'src/common/pipes/parseMongoId.pipe';
+import { PaginationDto } from '../common/dto/pagination.dto';
 
 @Controller('tattoo')
 export class TattooController {
@@ -22,8 +24,8 @@ export class TattooController {
   }
 
   @Get()
-  getMany() {
-    return this.tattooService.getMany();
+  getMany(@Query() paginationDto: PaginationDto) {
+    return this.tattooService.getMany(paginationDto);
   }
 
   @Get(':id')

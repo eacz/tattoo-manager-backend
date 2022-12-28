@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { CreateTattooDto } from './dto/create-tattoo.dto';
 import { UpdateTattooDto } from './dto/update-tattoo.dto';
 import { Tattoo } from './entities/tattoo.entity';
@@ -17,19 +18,39 @@ export class TattooService {
     return tattoo;
   }
 
-  getMany() {
-    return `This action returns all tattoo`;
+  async getMany(paginationDto: PaginationDto) {
+    const { limit = 10, offset = 0 } = paginationDto;
+
+    const tattos = await this.tattooModel
+      .find()
+      .limit(limit)
+      .skip(offset)
+      .select('-__v');
+    return tattos;
   }
 
-  findOne(id: string) {
-    return `This action returns a #${id} tattoo`;
+  async findOne(id: string) {
+    const tattoo = await this.tattooModel.findById(id);
+
+    if (!tattoo) {
+      throw new NotFoundException(`There is no tattoo with id ${id}`);
+    }
+
+    return tattoo;
   }
 
-  update(id: string, updateTattooDto: UpdateTattooDto) {
-    return `This action updates a #${id} tattoo`;
+  async update(id: string, updateTattooDto: UpdateTattooDto) {
+    const tattoo = await this.findOne(id);
+    //TODO: validar fecha de turno al actualizar
+    await tattoo.updateOne(updateTattooDto);
+    return { ...tattoo.toJSON(), ...updateTattooDto };
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} tattoo`;
+  async remove(id: string) {
+    const { deletedCount } = await this.tattooModel.deleteOne({ _id: id });
+    if (deletedCount === 0) {
+      throw new NotFoundException(`There is no tattoo with id ${id}`);
+    }
+    return;
   }
 }
