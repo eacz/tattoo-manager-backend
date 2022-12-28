@@ -6,6 +6,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TattooModule } from './tattoo/tattoo.module';
 import { CommonModule } from './common/common.module';
+import { SeedModule } from './seed/seed.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { CommonModule } from './common/common.module';
     MongooseModule.forRoot(process.env.MONGO_URL),
     TattooModule,
     CommonModule,
+    SeedModule,
   ],
   controllers: [AppController],
   providers: [AppService],

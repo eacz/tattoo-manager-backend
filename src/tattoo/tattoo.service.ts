@@ -59,4 +59,8 @@ export class TattooService {
     }
     return;
   }
+
+  async removeAll() {
+    await this.tattooModel.deleteMany();
+  }
 }

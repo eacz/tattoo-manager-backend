@@ -10,5 +10,6 @@ import { Tattoo, TattooSchema } from './entities/tattoo.entity';
   ],
   controllers: [TattooController],
   providers: [TattooService],
+  exports: [TattooService, MongooseModule],
 })
 export class TattooModule {}
