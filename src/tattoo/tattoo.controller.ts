@@ -13,6 +13,7 @@ import { CreateTattooDto } from './dto/create-tattoo.dto';
 import { UpdateTattooDto } from './dto/update-tattoo.dto';
 import { ParseMongoIdPipe } from 'src/common/pipes/parseMongoId.pipe';
 import { FindManyTattooDto } from './dto/find-many-tattoo.dto';
+import { GetTattosaByDate } from './dto/get-tattos-by-date.dto';
 
 @Controller('tattoo')
 export class TattooController {
@@ -26,6 +27,11 @@ export class TattooController {
   @Get()
   getMany(@Query() findManyTattooDto: FindManyTattooDto) {
     return this.tattooService.getMany(findManyTattooDto);
+  }
+
+  @Get('by-date')
+  getByDate(@Query() getTattosaByDate: GetTattosaByDate) {
+    return this.tattooService.getTattosByDate(getTattosaByDate);
   }
 
   @Get(':id')

@@ -5,11 +5,14 @@ import { CreateTattooDto } from './dto/create-tattoo.dto';
 import { FindManyTattooDto } from './dto/find-many-tattoo.dto';
 import { UpdateTattooDto } from './dto/update-tattoo.dto';
 import { Tattoo } from './entities/tattoo.entity';
+import { GetTattosaByDate } from './dto/get-tattos-by-date.dto';
+import { DatesService } from '../common/dates.service';
 
 @Injectable()
 export class TattooService {
   constructor(
     @InjectModel(Tattoo.name) private readonly tattooModel: Model<Tattoo>,
+    private readonly datesService: DatesService,
   ) {}
 
   async create(createTattooDto: CreateTattooDto) {
@@ -62,5 +65,28 @@ export class TattooService {
 
   async removeAll() {
     await this.tattooModel.deleteMany();
+  }
+
+  async getTattosByDate(getTattosByDate: GetTattosaByDate) {
+    const { date, limit, offset } = getTattosByDate;
+    const startTime = this.datesService.formatHourToZero(date);
+    const endTime = this.datesService.addOne(
+      this.datesService.formatHourToZero(date),
+      'days',
+      1,
+    );
+    console.log({ startTime, endTime });
+
+    const tattos = await this.tattooModel
+      .find({
+        day: {
+          $gte: startTime,
+          $lt: endTime,
+        },
+      })
+      .limit(limit)
+      .skip(offset);
+
+    return tattos;
   }
 }
