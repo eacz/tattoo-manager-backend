@@ -2,13 +2,13 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 @Schema()
 export class Tattoo {
-  @Prop()
+  @Prop({ required: true })
   client: string;
 
-  @Prop()
+  @Prop({ required: true })
   day: Date;
 
-  @Prop()
+  @Prop({ required: true })
   price: number;
 
   @Prop()
