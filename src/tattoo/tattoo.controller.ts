@@ -9,6 +9,8 @@ import {
   Query,
   UseInterceptors,
   UploadedFile,
+  ParseFilePipe,
+  MaxFileSizeValidator,
 } from '@nestjs/common';
 import { TattooService } from './tattoo.service';
 import { CreateTattooDto } from './dto/create-tattoo.dto';
@@ -35,7 +37,12 @@ export class TattooController {
   )
   async create(
     @Body() createTattooDto: CreateTattooDto,
-    @UploadedFile() image: Express.Multer.File,
+    @UploadedFile(
+      new ParseFilePipe({
+        validators: [new MaxFileSizeValidator({ maxSize: 1048576 })],
+      }),
+    )
+    image: Express.Multer.File,
   ) {
     if (image) {
       //procesar y subir imagen
