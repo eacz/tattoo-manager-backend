@@ -7,6 +7,8 @@ import {
   Param,
   Delete,
   Query,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
 import { TattooService } from './tattoo.service';
 import { CreateTattooDto } from './dto/create-tattoo.dto';
@@ -14,13 +16,32 @@ import { UpdateTattooDto } from './dto/update-tattoo.dto';
 import { ParseMongoIdPipe } from 'src/common/pipes/parseMongoId.pipe';
 import { FindManyTattooDto } from './dto/find-many-tattoo.dto';
 import { GetTattosaByDate } from './dto/get-tattos-by-date.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { FilesService } from '../common/files.service';
+import { fileExtensionFilter } from 'src/common/filters/fileExtension.filter';
 
 @Controller('tattoo')
 export class TattooController {
-  constructor(private readonly tattooService: TattooService) {}
+  constructor(
+    private readonly tattooService: TattooService,
+    private readonly filesService: FilesService,
+  ) {}
 
   @Post()
-  create(@Body() createTattooDto: CreateTattooDto) {
+  @UseInterceptors(
+    FileInterceptor('image', {
+      fileFilter: fileExtensionFilter,
+    }),
+  )
+  async create(
+    @Body() createTattooDto: CreateTattooDto,
+    @UploadedFile() image: Express.Multer.File,
+  ) {
+    if (image) {
+      //procesar y subir imagen
+      const imageUploaded = await this.filesService.uploadImage(image);
+      createTattooDto.image = imageUploaded.secure_url;
+    }
     return this.tattooService.create(createTattooDto);
   }
 
