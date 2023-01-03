@@ -14,8 +14,8 @@ export class Tattoo {
   @Prop()
   description?: string;
 
-  @Prop()
-  image?: string;
+  @Prop({ default: [] })
+  images?: [string];
 
   @Prop()
   clientContact?: string;

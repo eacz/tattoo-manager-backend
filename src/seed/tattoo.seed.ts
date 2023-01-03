@@ -7,7 +7,7 @@ interface SeedTattoo {
 
   description?: string;
 
-  image?: string;
+  images?: string[];
 
   clientContact?: string;
 
@@ -28,8 +28,9 @@ export const tattooData: SeedTattoo[] = [
     hasPayedAdvancedDeposit: false,
     advancedDepositAmount: 0,
     clientContact: '@patoelgato',
-    image:
+    images: [
       'https://thumbs.dreamstime.com/b/gato-con-pato-de-goma-amarillo-y-pelirrojo-aislados-sobre-fondo-blanco-espacio-copia-215517240.jpg',
+    ],
   },
   {
     client: 'Mimi',

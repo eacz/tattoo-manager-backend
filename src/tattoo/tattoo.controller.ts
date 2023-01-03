@@ -8,9 +8,7 @@ import {
   Delete,
   Query,
   UseInterceptors,
-  UploadedFile,
-  ParseFilePipe,
-  MaxFileSizeValidator,
+  UploadedFiles,
 } from '@nestjs/common';
 import { TattooService } from './tattoo.service';
 import { CreateTattooDto } from './dto/create-tattoo.dto';
@@ -18,7 +16,7 @@ import { UpdateTattooDto } from './dto/update-tattoo.dto';
 import { ParseMongoIdPipe } from 'src/common/pipes/parseMongoId.pipe';
 import { FindManyTattooDto } from './dto/find-many-tattoo.dto';
 import { GetTattosaByDate } from './dto/get-tattos-by-date.dto';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { FilesInterceptor } from '@nestjs/platform-express';
 import { FilesService } from '../common/files.service';
 import { fileExtensionFilter } from 'src/common/filters/fileExtension.filter';
 
@@ -31,23 +29,28 @@ export class TattooController {
 
   @Post()
   @UseInterceptors(
-    FileInterceptor('image', {
+    FilesInterceptor('images', 3, {
       fileFilter: fileExtensionFilter,
     }),
   )
   async create(
     @Body() createTattooDto: CreateTattooDto,
-    @UploadedFile(
-      new ParseFilePipe({
-        validators: [new MaxFileSizeValidator({ maxSize: 1048576 })],
-      }),
-    )
-    image: Express.Multer.File,
+    //uploadedFiles currently is broken and doesn't work with pipes
+    //new ParseFilePipe({
+    //  validators: [new MaxFileSizeValidator({ maxSize: 5000000 })],
+    //}),
+    @UploadedFiles()
+    images: Array<Express.Multer.File>,
   ) {
-    if (image) {
-      //procesar y subir imagen
-      const imageUploaded = await this.filesService.uploadImage(image);
-      createTattooDto.image = imageUploaded.secure_url;
+    if (images) {
+      const imagesUrls: string[] = [];
+
+      for (let i = 0; i < images.length; i++) {
+        const image = await this.filesService.uploadImage(images[i]);
+        imagesUrls.push(image.secure_url);
+      }
+
+      createTattooDto.images = imagesUrls;
     }
     return this.tattooService.create(createTattooDto);
   }

@@ -1,5 +1,6 @@
 import { Type } from 'class-transformer';
 import {
+  IsArray,
   IsBoolean,
   IsDate,
   IsNumber,
@@ -26,9 +27,10 @@ export class CreateTattooDto {
   @IsOptional()
   clientContact?: string;
 
-  @IsString()
+  @IsArray()
+  @IsString({ each: true })
   @IsOptional()
-  image?: string;
+  images?: string[];
 
   @IsBoolean()
   @IsOptional()
