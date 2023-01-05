@@ -1,3 +1,5 @@
+import * as dayjs from 'dayjs';
+
 interface SeedTattoo {
   client: string;
 
@@ -21,7 +23,7 @@ interface SeedTattoo {
 export const tattooData: SeedTattoo[] = [
   {
     client: 'Pato',
-    day: new Date('2022-12-27T21:38:18.250+00:00'),
+    day: dayjs().toDate(),
     price: 1500,
     description: 'Turno con pato para tatuarle un pato',
     done: false,
@@ -34,7 +36,7 @@ export const tattooData: SeedTattoo[] = [
   },
   {
     client: 'Mimi',
-    day: new Date('2022-12-28T21:38:18.250+00:00'),
+    day: dayjs().add(1, 'day').set('hour', 12).toDate(),
     price: 2700,
     description: 'Turno con mimi para tatuarse una paloma',
     done: true,
@@ -44,7 +46,7 @@ export const tattooData: SeedTattoo[] = [
   },
   {
     client: 'Poa',
-    day: new Date('2022-12-28T19:30:18.250+00:00'),
+    day: dayjs().add(1, 'day').set('hour', 14).toDate(),
     price: 2200,
     done: false,
     hasPayedAdvancedDeposit: false,
