@@ -43,4 +43,8 @@ export class CreateTattooDto {
   @IsBoolean()
   @IsOptional()
   done?: boolean;
+
+  @IsNumber()
+  @IsOptional()
+  hours?: number;
 }

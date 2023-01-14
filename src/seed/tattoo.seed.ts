@@ -18,6 +18,8 @@ interface SeedTattoo {
   advancedDepositAmount?: number;
 
   done?: boolean;
+
+  hours?: number;
 }
 
 export const tattooData: SeedTattoo[] = [
@@ -33,6 +35,7 @@ export const tattooData: SeedTattoo[] = [
     images: [
       'https://thumbs.dreamstime.com/b/gato-con-pato-de-goma-amarillo-y-pelirrojo-aislados-sobre-fondo-blanco-espacio-copia-215517240.jpg',
     ],
+    hours: 1,
   },
   {
     client: 'Mimi',
@@ -43,6 +46,7 @@ export const tattooData: SeedTattoo[] = [
     hasPayedAdvancedDeposit: true,
     advancedDepositAmount: 1200,
     clientContact: '@mimimimosa',
+    hours: 2,
   },
   {
     client: 'Poa',
@@ -52,5 +56,6 @@ export const tattooData: SeedTattoo[] = [
     hasPayedAdvancedDeposit: false,
     advancedDepositAmount: 0,
     clientContact: '@ppppoa',
+    hours: 0,
   },
 ];

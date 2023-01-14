@@ -28,6 +28,9 @@ export class Tattoo {
 
   @Prop({ default: false })
   done?: boolean;
+
+  @Prop({ default: 0 })
+  hours?: number;
 }
 
 export const TattooSchema = SchemaFactory.createForClass(Tattoo);

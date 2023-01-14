@@ -4,7 +4,7 @@ services:
   db:
     image: mongo:5
     ports: 
-      - 27019:27017
+      - 27020:27017
     environment:
       MONGODB_DATABASE: tattoo-manager
       MONGODB_USERNAME: ${MONGO_USERNAME}
