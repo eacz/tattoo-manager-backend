@@ -11,13 +11,13 @@ export class Tattoo {
   @Prop({ required: true })
   price: number;
 
-  @Prop()
+  @Prop({ default: '' })
   description?: string;
 
   @Prop({ default: [] })
   images?: [string];
 
-  @Prop()
+  @Prop({ default: '' })
   clientContact?: string;
 
   @Prop({ default: false })
