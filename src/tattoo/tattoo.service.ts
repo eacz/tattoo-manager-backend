@@ -23,11 +23,9 @@ export class TattooService {
 
   async getMany(findManyTattooDto: FindManyTattooDto) {
     const { limit = 10, offset = 0, done } = findManyTattooDto;
-    console.log({ done });
     const query: any = {};
     if (typeof done === 'boolean') {
       query.done = done;
-      console.log('boolean');
     }
 
     const tattos = await this.tattooModel
@@ -75,7 +73,6 @@ export class TattooService {
       'days',
       1,
     );
-    console.log({ startTime, endTime });
 
     const tattos = await this.tattooModel
       .find({

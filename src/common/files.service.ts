@@ -6,9 +6,7 @@ export class FilesService {
   constructor(private readonly cloudinaryService: CloudinaryService) {}
   async uploadImage(file: Express.Multer.File) {
     try {
-      console.log({ file });
       const fileUploaded = await this.cloudinaryService.uploadImage(file);
-      console.log(fileUploaded);
       return fileUploaded;
     } catch (error) {
       console.log(error);
